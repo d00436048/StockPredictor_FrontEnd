@@ -50,44 +50,50 @@ def list_accounts():
     print(account_list)
     return jsonify({"accounts": account_list}), 200
 
-@app.route('/accounts/session', methods=['POST'])
+@app.route('/accounts/session', methods=['OPTIONS', 'POST'])
 def login_account():
-    data = request.json #get json from front end
-
-    if not data["email"] or not data["password"]:
-        return jsonify({"error": "no email or password"}), 400
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT id, email, password, salt, stocks FROM accounts WHERE email = ?', (data["email"],))
-    account = cursor.fetchone()
-
-    conn.close()
-
-    if account:
-        db_id, db_email, db_password, db_salt, db_stocks = account
-
-        if bcrypt.checkpw(data['password'].encode('utf-8'), db_password): #might need to swap
-            token = create_access_token(identity=db_id)
-            return jsonify({"token": token, "email": data["email"], "stocks": db_stocks})
-        else:
-            return jsonify({"error": "password invalid"}), 401
+    if request.method == 'OPTIONS':
+        return "", 200
     else:
-        return jsonify({"error": "account not found"}), 404
+        data = request.json #get json from front end
+
+        if not data["email"] or not data["password"]:
+            return jsonify({"error": "no email or password"}), 400
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT id, email, password, salt, stocks FROM accounts WHERE email = ?', (data["email"],))
+        account = cursor.fetchone()
+
+        conn.close()
+
+        if account:
+            db_id, db_email, db_password, db_salt, db_stocks = account
+
+            if bcrypt.checkpw(data['password'].encode('utf-8'), db_password): #might need to swap
+                token = create_access_token(identity=db_id)
+                return jsonify({"token": token, "email": data["email"], "stocks": db_stocks})
+            else:
+                return jsonify({"error": "password invalid"}), 401
+        else:
+            return jsonify({"error": "account not found"}), 404
     
-@app.route('/accounts/new_session/new', methods=['POST'])
+@app.route('/accounts/new_session/new', methods=['OPTIONS', 'POST'])
 def update_pass():
-    data = request.json
+    if request.method == "OPTIONS":
+        return "", 200
+    else:
+        data = request.json
 
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(data['newPass'].encode('utf-8'), salt)
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(data['newPass'].encode('utf-8'), salt)
 
-    conn = get_db_connection()
-    conn.execute("UPDATE accounts SET password = ?, salt = ? WHERE email = ?", (hashed_password, salt, data['email']))
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "password updated successfully"}), 200
+        conn = get_db_connection()
+        conn.execute("UPDATE accounts SET password = ?, salt = ? WHERE email = ?", (hashed_password, salt, data['email']))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "password updated successfully"}), 200
 
 @app.route('/accounts/new_session/info', methods=['POST'])
 def return_id():
@@ -133,24 +139,25 @@ def create_account():
     return jsonify({"message": "Accuont created successfully", "token": token ,"id": account_id, "email": data["email"], "stocks": stocks}), 201
 
 
-@app.route('/accounts/session', methods=["DELETE"])
+@app.route('/accounts/session', methods=["OPTIONS","DELETE"])
 def del_account():
-    data = request.json
-
-    email = data.get("email")
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM accounts where email = ?', (email,))
-    conn.commit()
-    if cursor.rowcount > 0:
-        # Account successfully deleted
-        return jsonify({"message": f"Account with email {email} deleted successfully."}), 200
+    if request.method == "OPTIONS":
+        return "", 200
     else:
-        # Account not found
-        return jsonify({"error": "Account not found"}), 404
+        data = request.json
 
+        email = data.get("email")
 
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM accounts where email = ?', (email,))
+        conn.commit()
+        if cursor.rowcount > 0:
+            # Account successfully deleted
+            return jsonify({"message": f"Account with email {email} deleted successfully."}), 200
+        else:
+            # Account not found
+            return jsonify({"error": "Account not found"}), 404
 
 if __name__ == '__main__':
     init_db()

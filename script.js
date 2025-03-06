@@ -218,39 +218,44 @@ function fetchId(){
 }
 
 function del_account(){
-    email = localStorage.getItem('email')
-    console.log("del account called")
-    fetch(`http://127.0.0.1:5000/accounts/session`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',  // Ensures the server knows the data is JSON
-        },
-        body: JSON.stringify({ email })
-    })
-    .then(response => {
-        if (response.ok) {
-            alert("account successfuly deleted");
-            return response.json();
-        } else {
-            throw new Error('Error deleting item.');
-        }
-    })
-    .then(data => {
-        console.log('Success:', data.message);
-        localStorage.removeItem("email");
-        localStorage.removeItem('token');
-        console.log(localStorage.getItem('email'));
-        anaylzed = false;
-        going_up = false;
-        window.location.replace("/../index.html");  
-        
-        check_login();
-        check_analysis();
-        console.logt("del account request recieved")
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    let conf = confirm("ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT?");
+    if (conf){    email = localStorage.getItem('email')
+        console.log("del account called")
+        fetch(`http://127.0.0.1:5000/accounts/session`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',  // Ensures the server knows the data is JSON
+            },
+            body: JSON.stringify({ email })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("account successfuly deleted");
+                return response.json();
+            } else {
+                throw new Error('Error deleting item.');
+            }
+        })
+        .then(data => {
+            console.log('Success:', data.message);
+            localStorage.removeItem("email");
+            localStorage.removeItem('token');
+            console.log(localStorage.getItem('email'));
+            anaylzed = false;
+            going_up = false;
+            window.location.replace("/../index.html");  
+            
+            check_login();
+            check_analysis();
+            console.logt("del account request recieved")
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        return;
+    }
+
 
 
 }
