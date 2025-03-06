@@ -1,0 +1,124 @@
+:root {
+    --green: #15fe28;
+    --red: #ff2a2a;
+    --bg_color_1: rgb(86,86,86);
+    --bg_color_2: black;
+}
+
+@font-face {
+    font-family: site-font;
+    src: url(../assets/fonts/obitron.ttf)
+
+}
+    
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, var(--bg_color_1), var(--bg_color_2));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow-y: auto;
+    padding: 0;
+
+}
+
+.head_row {
+    top: 10px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 20vh;
+    padding: 0;
+    overflow-y: hidden;
+    margin: 0;
+}
+
+h1 {
+    font-family: 'site-font';
+    color: white;
+    font-weight: bolder;
+    align-self: center;
+    margin-bottom: 10vh;
+    font-weight: lighter;
+
+}
+
+button {
+    height: 6vh;
+    width: 10vw;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    border-width: 1px;
+    border-radius: 25px;
+    border-color: white;
+    border-style: solid;
+    margin-top: 5vh;
+    margin-right: 5vw;
+    margin-left: 5vw;
+    font-family: 'site-font';
+    scale: 1;
+    box-shadow: none;
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+}
+
+label {
+    width: 250px;
+    height: 40px;
+    background-color: transparent;
+    box-shadow: None;
+    color: white;
+    font-size:large;
+    text-align: center;
+    font-family: 'site-font';
+    margin-top: 15px;
+    margin-bottom: 5;
+}
+
+#email, #password {
+    border-radius: 25px;
+    width: 250px;
+    height: 40px;
+    border-width: 2px;
+    background-color: transparent;
+    border-color: white;
+    border-style: solid;
+    box-shadow: None;
+    color: white;
+    font-size:large;
+    text-align: center;
+    font-family: 'site-font';
+    margin: 15px;
+}
+
+#login-screen-button {
+    margin: 6vh;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    width: 20vw;
+    height: 8vh;
+    font-family: 'site-font';
+    border-radius: 30px;
+    font-size: larger;
+    border-style: none;
+
+    
+}
+
+#login-screen-button:hover, #signup_button:hover, button:hover{
+    scale: 1.1;
+}

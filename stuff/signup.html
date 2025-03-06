@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="signup-scene" class="scene">
+        <h1>signup</h1>
+        <button onclick="switchScene('splash-scene')">back</button>
+        <form>
+            <label for="username">Username</label>
+            <input id="username" type="text" required>
+            <label for="email">Email</label>
+            <input id="email" type="email" required>
+            <label for="password">Password</label>
+            <input id="password" type="password" required>
+            <input type="button" onclick="createUser()">
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NNSTOCKPREDICTOR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="head_row">
+        <button class="info_button" onclick="window.location.href='/html/info.html'"><img src="assets/icons8-info-96.png"/></button>
+        <button id="login_button"></button>
+    </div>
+    <div id="middle">
+        <h1>AI Stock Analyser</h1>
+        <form>
+            <input id="ticker_symb" type="text" placeholder="Enter Ticker Symbol">
+        </form>
+        <button id="submit_button" onclick="addStock()">Analyze</button>
+    </div>
+    <div id="list">
+        <div id="list_text">
+            <p>Ticker</p>
+            <p>Price</p>
+            <p>Price at Analysis</p>
+            <p>% Change</p>
+            <p>Analysis Correct</p>
+        </div>
+        <hr class="top_line">
+        <div id="list_items"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

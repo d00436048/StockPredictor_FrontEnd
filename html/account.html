@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/account_style.css">
+    <title>account</title>
+</head>
+<body>
+    <div class="head_row">
+        <button id="back_buton" onclick="window.location.href='../index.html'">Back</button>
+        <button id="del_account_button" onclick="del_account()">Delete Account</button>
+    </div>
+    <div class="middle">
+        <h1>Account</h1>
+            <div id="account_id_div">
+                <h2 id="account_id_text">User ID: </h2>
+                <button id="fetch_id_button" onclick="fetchId()">Get User ID</button>
+            </div>
+        <form>
+            <input type="text" id="new_pass" placeholder="Enter New Password">
+        </form>
+        <button id="update_password" onclick="updatePassword()">Change Password</button>
+        <button id="logout_button" onclick="logoutUser()">Logout</button>
+
+    </div>
+    <script src="/../script.js"></script>
+</body>
+</html>

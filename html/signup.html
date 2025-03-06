@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/signup_style.css">
+    <title>login</title>
+</head>
+<body>
+    <div class="head_row">
+        <button id="back_buton" onclick="window.location.href='../index.html'">Back</button>
+        <button id="login_button" onclick="window.location.href='../html/login.html'">Login</button>
+    </div>
+    <div id="middle">
+        <h1>Sign up for an Account</h1>
+        <form>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="Enter Email" required>
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Enter Password" required>
+            <input type="button" id="login-screen-button" onclick="createUser()" value="Sign up">
+        </form>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Project4</title>
+</head>
+<body>
+    <div id="login-scene" class="scene">
+        <h1>login</h1>
+        <button onclick="switchScene('splash-scene')">back</button>
+        <form>
+            <label for="email">Email</label>
+            <input id="login-email" type="email" required>
+            <label for="password">Password</label>
+            <input id="login-password" type="password" required>
+            <input type="button" onclick="loginUser()">
+        </form>
+        <button><a href="signup.html">Go to Signup</a></button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import sqlite3
+from yahoo_fin import stock_info
+
+app = Flask(__name__)
+CORS(app)
+
+# Initialize Database
+def init_db():
+    conn = sqlite3.connect("stocks.db")
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS stocks (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ticker TEXT UNIQUE,
+                        price TEXT,
+                        change TEXT,
+                        prev_close TEXT
+                    )''')
+    conn.commit()
+    conn.close()
+
+init_db()  # Run database setup
+
+# Route to fetch stock data, store in DB, and return all stocks
+@app.route("/stocks", methods=["POST"])
+def fetch_and_store_stock():
+    data = request.json
+    ticker = data.get("ticker")
+
+    if not ticker:
+        return jsonify({"error": "Ticker is required"}), 400
+
+    try:
+        # Get stock data from Yahoo Finance
+        price = stock_info.get_live_price(ticker)
+        change = stock_info.get_quote_table(ticker)["Previous Close"]
+        prev_close = stock_info.get_quote_table(ticker)["Open"]
+
+        stock_data = {
+            "ticker": ticker.upper(),
+            "price": f"${price:.2f}",
+            "change": f"${change}",
+            "prev_close": f"${prev_close}"
+        }
+
+        # Store in database
+        conn = sqlite3.connect("stocks.db")
+        cursor = conn.cursor()
+        cursor.execute("INSERT OR REPLACE INTO stocks (ticker, price, change, prev_close) VALUES (?, ?, ?, ?)",
+                       (stock_data["ticker"], stock_data["price"], stock_data["change"], stock_data["prev_close"]))
+        conn.commit()
+        conn.close()
+
+        return get_all_stocks()
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Route to get all stored stocks
+@app.route("/stocks", methods=["GET"])
+def get_all_stocks():
+    conn = sqlite3.connect("stocks.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT ticker, price, change, prev_close FROM stocks")
+    rows = cursor.fetchall()
+    conn.close()
+
+    stocks = [{"ticker": row[0], "price": row[1], "change": row[2], "prev_close": row[3]} for row in rows]
+
+    return jsonify({"stocks": stocks})
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
