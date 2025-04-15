@@ -42,4 +42,4 @@ SQLite 'CREATE TABLE' for the **accounts** resource:
 --------------------------------------
 -path: /accounts/session
 -method: GET
--name: list_accounts
+-name: list_accounts# StockPredictor_FrontEnd
